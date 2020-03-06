@@ -1,4 +1,4 @@
-package com.pancm.service;
+package com.master.service;
 
 import java.util.List;
 
