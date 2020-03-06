@@ -1,4 +1,4 @@
-package com.pancm.dao;
+package com.master.dao;
 
 import java.util.List;
 
