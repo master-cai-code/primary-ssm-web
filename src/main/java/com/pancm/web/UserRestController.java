@@ -1,4 +1,4 @@
-package com.pancm.web;
+package com.master.web;
 
 import java.util.List;
 
@@ -7,19 +7,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.pancm.pojo.User;
-import com.pancm.service.UserService;
+import com.master.pojo.User;
+import com.master.service.UserService;
 
 
 
 /**
  * 
-* Title: UserRestController
-* Description: 
-* 用户控制层
-* Version:1.0.0  
-* @author pancm
-* @date 2018年3月19日
+
  */
 @Controller
 public class UserRestController {
