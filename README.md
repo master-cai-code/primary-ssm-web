@@ -83,3 +83,68 @@
             <td><a th:href="@{/toDelete(id=${user.id})}">删除</a></td>
           </tr>
     再就是表单提交的书写.....
+
+  2020.3.17---16:25
+## 关于一些补充和以前疑惑的解答：
+
+     ##Spring MVC的大概流程：
+     1.请求来到dispatcherServlet（以下简称DS）
+     2.DS根据请求（URL地址）查找匹配的handler（处理请求的具体方法）----中间经过handlerMapping和handlerAdapter
+     3.处理方法会生成ModelAndView对象，可拆解成Model（数据）和View（逻辑视图，也就是html页面的名字，需要进行前缀后缀拼接等）
+     4.Model把数据传给对应的html页面，完成响应
+     --------------------------和之前想法差不多
+       
+
+    ##Spring的IOC和AOP原理：
+    1.IOC控制反转：原来对象是程序员new出来的，现在是IOC创建对象，然后运行时注入到需要的实例当中（原来是自己做饭，现在是打电话叫外卖）松耦合
+    2.IOC的原理流程：-----------java反射
+      分为两步：IOC创建beans   和   给有依赖的实例注入beans
+      2.1  spring容器获取 扫描包 下面所有的类
+      2.2  获取各个类上的注解信息
+      2.3  如果有注解，进行bean的实例化（beanId---类名小写，通过类名获得实例化对象）  -----这个仿源码的样例根据beanId名称来注入
+      2.4  将该bean添加到beans的ConcurrentHashMap<String,Object>集合中（单例，只创建一次）
+      
+      2.5  利用反射去查找类中的属性上是否有注解
+      2.6  根据该属性名称在Map集合中找到对应的bean注入（这个样例是 属性名和beanId要一模一样）  默认是根据类型注入，这个样例是根据名字注入
+    3.AOP面向切面：  动态的增强一个方法，在其前面，后面添加新功能（在什么时候，什么地方，做什么增强）    将两个业务逻辑分离  也实现了松耦合
+    4.AOP的原理流程：-----------动态代理
+      4.1  动态代理的实现：           目标对象和代理对象
+              1. 实现InvocationHandler接口，重写里面的invoke（）方法，    也要用一成员变量来接收目标对象：private Object target;
+              2. 在invoke(）方法里进行“增强”   
+                 //xxxx前置增强   
+                 Object result =method.invoke(target, args); //原目标对象的旧方法   返回值=方法名.invoke（对象，参数）--> 对象.方法（参数） 
+                // xxxx后置增强
+              3. 任意写一个方法（如getProxy()）用于返回代理的对象
+              4. 在方法里 调用Proxy.newProxyInstance（classloader，interfaces，InvocationHandler）  生成代理对象
+              5. main方法里面使用代理对象调用原始接口里面的方法（就是去执行增强的invoke方法了）
+          
+          
+    ##Mybatis的原理：  读取配置文件，SqlSessionFactory.openSession()，创建sqlSession,获取mapper接口，调用接口配置的方法，执行sql语句.......
+    
+    
+    
+    
+ #关于参数的补充
+ 
+  Spring MVC
+  
+    1.@RequestParam ： 一般用于接收get请求传过来的参数（直接跟在URL地址后面，如：localhost：8080/hello?name=zhang&age=18）用问号隔开，中间用&
+    2.@PathVariable ： 用于接收URL中的直接参数（如：localhost：8080/hello/{name}）
+    3.@RequestBody  ： 一般用于接收post请求表单之类的多个参数（请求体当中的参数），有JavaBean可以封装成对应的对象，再直接取出
+     其余参数
+         @Controller   @RequestMapping(@GetMapping,@PostMapping,@PutMapping,@DeleteMapping)
+         利用model把执行结果参数传给html模板中
+  
+ Mybatis
+    
+    注解SQL用于简单语句，xml用于复杂语句操作，杂交编写
+    1.xxxMapper.xml实际是Dao接口的实现类，namespace为类名，标签的id为方法名，ResultMap：返回类型，参数类型可以省略不写
+    2.用#{}接收参数  ，#{xxx}
+    3.对于一个参数的，#{}的xxx随便写，不过最好和参数名相同，有可读性
+    4.两个或多个参数的，在Dao中用@Param（“指定名字”）绑定参数，SQL语句中再根据#{指定名字}取出参数的值
+    5.多个参数，打包成JavaBean，再直接通过JavaBean的属性名取出属性的值
+    6.多个参数也可以包装成Map集合，根据key取出value
+    
+    再就是获取自增主键 UseGenerateKey   keyProperty ......           动态SQL又待续........
+   
+   
