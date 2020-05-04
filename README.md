@@ -29,6 +29,20 @@
      
      delete from stu where stu_name like '%h';
      
+     ###
+     where  子句在group by 之前筛选，不能跟聚集函数
+     having 则在group by 之后，进行分组后，选出满足条件的组
+     
+     ### 
+     外键foreign key 是从表里的键是主表的主键，起到连接两表的作用
+     修改从表是拒绝的，而修改主表可以级联删除或修改从表              （小弟死了不会影响大哥，但大哥死了小弟会受牵连）
+     
+     ###
+     全相连：并集（mysql没有full outer join 关键字，使用union关键字合并左连接和右连接），找到显示，没匹配就是null
+     左连接：以左边的为基准，去查找右表的数据，找到就显示，没找到就为null
+     右连接：以右边的为基准...
+     内连接：交集
+     
  ##1.5 配置resource目录下的application.properties（url：ip+port，编码方式，注意serverTimezone）
  
      spring.datasource.url=jdbc:mysql://localhost:3306/tryssm?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
