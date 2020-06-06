@@ -14,7 +14,7 @@
                    stu_name varchar(50) not null unique,
                    stu_password varchar(50) not null,
                    stu_des varchar(50)  comment '描述信息'
-                   );
+                   ) ENGINE = INNODB DEFAULT CHARSET = utf8 COMMENT "学生表";
     show tables;
     describe stu;
     
